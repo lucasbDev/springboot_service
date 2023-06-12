@@ -15,44 +15,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.RHPback.projeto.entities.Funcionario;
-import com.RHPback.projeto.repository.FuncionarioRepository;
-import com.RHPback.projeto.service.FuncionarioService;
+import com.RHPback.projeto.entities.Gestor;
+import com.RHPback.projeto.repository.GestorRepository;
+import com.RHPback.projeto.service.GestorService;
 
 @RestController
-@RequestMapping(value = "/funcionario")
-public class FuncionarioController {
+@RequestMapping(value = "/gestor")
+public class GestorController {
 
 	@Autowired
-	private FuncionarioService service;
+	private GestorService service;
 	@Autowired
-	private FuncionarioRepository repository;
+	private GestorRepository repository;
 	
        /////////////////// GET//////////////////
 	/////////////////////////////////////////////
 	
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> findAll() {
+	public ResponseEntity<List<Gestor>> findAll() {
 
-		List<Funcionario> list = service.findAll();
+		List<Gestor> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Funcionario> findById(@PathVariable Long id) {
-		Funcionario obj = service.findById(id);//
+	public ResponseEntity<Gestor> findById(@PathVariable Long id) {
+		Gestor obj = service.findById(id);//
 		return ResponseEntity.ok().body(obj);
 	}
            ///////////////////////POST//////////////////////
 	/////////////////////////////////////////////////////////////
 	
 	@PostMapping
-	public ResponseEntity<Funcionario> insert(@RequestBody Funcionario obj) {
+	public ResponseEntity<Gestor> insert(@RequestBody Gestor obj) {
 		obj = service.insert(obj);
 		// return ResponseEntity.ok().body( obj);// retorna 200 q n é o ideal
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdFuncionario()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdGestor()).toUri();
 
 		return ResponseEntity.created(uri).body(obj);
 	}
@@ -70,21 +69,21 @@ public class FuncionarioController {
 	///////////////////////////////////////////////////
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Funcionario> update(@PathVariable Long id, @RequestBody Funcionario obj) {
-	    Optional<Funcionario> optionalFuncionario = repository.findById(id) ;
+	public ResponseEntity<Gestor> update(@PathVariable Long id, @RequestBody Gestor obj) {
+	    Optional<Gestor> optionalGestor = repository.findById(id) ;
 	    
-	    if (optionalFuncionario.isPresent()) {
-	        Funcionario funcionario = optionalFuncionario.get();
+	    if (optionalGestor.isPresent()) {
+	        Gestor gestor = optionalGestor.get();
 	        
-	        // Atualize os campos necessários do objeto 'funcionario' com base nos dados fornecidos em 'obj'
-	        funcionario.setNome(obj.getNome());
-	        funcionario.setEmail(obj.getEmail());
-	        funcionario.setSenha(obj.getSenha());
-	        // ... atualize outros campos conforme necessário
+	       
+	        gestor.setNome(obj.getNome());
+	        gestor.setEmail(obj.getEmail());
+	        gestor.setSenha(obj.getSenha());
+	      
 	        
-	       repository.save(funcionario); // Salve as alterações no banco de dados
+	       repository.save(gestor); 
 	        
-	        return ResponseEntity.ok(funcionario);
+	        return ResponseEntity.ok(gestor);
 	    } else {
 	        return ResponseEntity.notFound().build();
 	    }
