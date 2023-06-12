@@ -27,7 +27,8 @@ public class FuncionarioService {
 
 	public Funcionario findById(Long id) {
 		Optional<Funcionario> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		//return obj.get();
+		return obj.orElseThrow(()-> new ResourceNotFoundException(id));
 	}
 
 	public Funcionario insert(Funcionario obj) {
@@ -35,28 +36,41 @@ public class FuncionarioService {
 	}
 
 	public void delete(Long id) {
+		//repository.deleteById(id);
 		try {
 			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
+		}catch(EmptyResultDataAccessException e) {
+			//e.printStackTrace();
 			throw new ResourceNotFoundException(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException(e.getMessage());
+		}catch (DataIntegrityViolationException e) { // violação de integridades de dados.
+			//e.printStackTrace();
+			throw new DatabaseException(e.getMessage());// exceção da camada de serviço.
 		}
+
 	}
+	
 
 	public Funcionario update(Long id, Funcionario obj) {
 		try {
-			Funcionario entity = repository.getById(id);
-			updateData(entity, obj);
-			return repository.save(entity);
-		} catch (EntityNotFoundException e) {
+		Funcionario entity=repository.getReferenceById(id);
+		//Funcionario entity = findById(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+		
+		}
+			//catch(RuntimeException e) {
+		    catch(EntityNotFoundException e) {
+			//e.printStackTrace();
 			throw new ResourceNotFoundException(id);
 		}
+		}
+	
+	private void updateData(Funcionario entity, Funcionario obj) {
+		//entity.setNome(obj.getNome());
+
+		entity.setEmail(obj.getEmail());
+	
 	}
 
-	private void updateData(Funcionario entity, Funcionario obj) {
-		entity.setNome(obj.getNome());
-		entity.setEmail(obj.getEmail());
-		// Atualize outras propriedades aqui, se necessário
-	}
+	
 }

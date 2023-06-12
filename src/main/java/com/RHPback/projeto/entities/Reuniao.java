@@ -1,48 +1,59 @@
 package com.RHPback.projeto.entities;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
-@Table(name = "tb_reuniao")
-@Getter
-@Setter
+@Table(name = "tb_evento")
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reuniao implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Reuniao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReuniao;
+    private Long id;
 
-    private String moment;
 
-    private String nomereuniao;
+    @Column(name = "local", length = 50)
+    @NotNull
+    private String local;
 
-    private Integer q_pessoas;
 
-    private String termino_reuniao;
+    @Column(name = "data", length = 10)
+    @NotNull
+    private String data;
 
-    private String inicio_reuniao;
+    @Column(name = "horarioInicio", length = 10)
+    @NotNull
+    private String horarioInicio;
 
-    @OneToMany
-    @JoinTable(
-        name = "tb_reuniao_funcionario",
+    @Column(name = "horarioFinal", length = 10)
+    @NotNull
+    private String horarioFinal;
+    
+
+    @Column(name = "quantidade", length = 5)
+    private String quantidade;
+
+
+    @Column(name = "email")
+    private String email;
+
+   
+
+   
+    @ManyToMany
+    @JoinTable(name = "evento_funcionario",
         joinColumns = @JoinColumn(name = "reuniao_id"),
-        inverseJoinColumns = @JoinColumn(name = "funcionario_id")
-    )
-    private Set<Funcionario> convidados = new HashSet<>();
+        inverseJoinColumns = @JoinColumn(name = "funcionario_id"))
+    private List<Funcionario> inscritos= new ArrayList<>();
 
-    public Set<Funcionario> getConvidados() {
-        return convidados;
-    }
+
 }

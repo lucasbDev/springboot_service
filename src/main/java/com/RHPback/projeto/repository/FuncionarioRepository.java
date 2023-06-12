@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.RHPback.projeto.entities.Funcionario;
 
 @Repository
-public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
+public interface FuncionarioRepository extends JpaRepository<Funcionario,Long> {
 }
+
