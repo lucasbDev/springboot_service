@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,47 +15,31 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tb_funcionario")
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class Funcionario implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	////////////// ATRIBUTOS////////////////////////
-	
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idFuncionario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idFuncionario;
 
-	@Column(nullable = false, name = "nome", length = 50)
-	private String nome;
+    @Column(nullable = false, name = "nome", length = 50)
+    private String nome;
 
-	@Column(nullable = false, unique = true, name = "email", length = 50)
-	private String email;
+    @Column(nullable = false, unique = true, name = "email", length = 50)
+    private String email;
 
-	@Column(name = "senha", length = 50)
-	private String senha;
-	
-	
+    @Column(name = "senha", length = 50)
+    private String senha;
 
-	////////////////////// ASSOCIAÇÕES/////////////////////
-	
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "convidados")
-	private Set<Reuniao> reuniao = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "convidados")
+    private Set<Reuniao> reunioes = new HashSet<>();
 
-	
-	
-	///////////////////////////// COLLETCTIONS GET/////////
-
-	
-	public Set<Reuniao> getReuniao() {
-		return reuniao;
-	}
-	
-
+    public Set<Reuniao> getReunioes() {
+        return reunioes;
+    }
 }

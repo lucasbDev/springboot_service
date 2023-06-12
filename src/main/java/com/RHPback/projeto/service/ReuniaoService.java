@@ -18,7 +18,7 @@ public class ReuniaoService {
 
 	@Autowired
 	private ReuniaoRepository repository;
-	
+
 	@Autowired
 	private RespostaModelo rm;
 
@@ -28,40 +28,28 @@ public class ReuniaoService {
 
 	public Reuniao findById(Long id) {
 		Optional<Reuniao> obj = repository.findById(id);
-		//return obj.get();
-		return obj.orElseThrow(()-> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public ResponseEntity<?> cadastrar(Reuniao pm, String acao) {
-		if(pm.getMoment().equals("")) {
-			rm.setMensagem("Todos os campos são obrigatórios !");
+	public ResponseEntity<?> cadastrar(Reuniao reuniao, String acao) {
+		if (reuniao.getMoment().equals("") || reuniao.getInicio_reuniao().equals("")) {
+			rm.setMensagem("Todos os campos são obrigatórios!");
 			return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
-		} else if(pm.getInicio_reuniao().equals("")) {
-			rm.setMensagem("Todos os campos são obrigatórios !");
-			return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
-		}else {
-			if(acao.equals("cadastrar")) {
-				return new ResponseEntity<Reuniao>(repository.save(pm), HttpStatus.CREATED);
-			}else {
-				return new ResponseEntity<Reuniao>(repository.save(pm), HttpStatus.OK);
+		} else {
+			if (acao.equals("cadastrar")) {
+				return new ResponseEntity<Reuniao>(repository.save(reuniao), HttpStatus.CREATED);
+			} else if (acao.equals("alterar")) {
+				return new ResponseEntity<Reuniao>(repository.save(reuniao), HttpStatus.OK);
+			} else {
+				rm.setMensagem("Ação inválida!");
+				return new ResponseEntity<RespostaModelo>(rm, HttpStatus.BAD_REQUEST);
 			}
 		}
-		
 	}
 
-	public ResponseEntity<RespostaModelo>remover(long codigo){
+	public ResponseEntity<RespostaModelo> remover(long codigo) {
 		repository.deleteById(codigo);
-		rm.setMensagem("O produto foi removido com sucesso!");
-		return new ResponseEntity<RespostaModelo>(rm,  HttpStatus.OK);
-		
-	}
-
-	
-
-	private void updateData(Reuniao entity, Reuniao obj) {
-		entity.setMoment(obj.getMoment());
-
-		//entity.setSala(obj.getSala());
-
+		rm.setMensagem("A reunião foi removida com sucesso!");
+		return new ResponseEntity<RespostaModelo>(rm, HttpStatus.OK);
 	}
 }
