@@ -55,7 +55,11 @@ public class ReuniaoService {
 
     public Reuniao findById(Long id) {
     	Optional<Reuniao> obj = eventoRepository.findById(id);
+<<<<<<< HEAD
     	return obj.get();
+=======
+    	return obj.orElseThrow(()-> new ResourceNotFoundException(id));
+>>>>>>> e29efdf26f715f54ad20d1b73c74e97dda1f24e0
       
     }
 

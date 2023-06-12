@@ -45,6 +45,7 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+<<<<<<< HEAD
 
 		
 		<dependency>
@@ -52,6 +53,8 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+=======
+>>>>>>> e29efdf26f715f54ad20d1b73c74e97dda1f24e0
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -60,6 +63,14 @@
 			<optional>true</optional>
 		</dependency>
 		
+		
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
